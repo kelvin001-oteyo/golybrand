@@ -1,0 +1,10 @@
+services:
+  - type: web
+    plan: free
+    name: golybrand-agencies
+    runtime: image
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ADMIN_REGISTRATION_KEY
+        value: GolyBrandAdmin2026!  # CHANGE THIS!
