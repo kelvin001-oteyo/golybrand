@@ -1,0 +1,3079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GOLYBRAND AGENCIES - Agent dashboard and referral platform">
+<title>GOLYBRAND AGENCIES</title>
+
+<style>
+:root {
+    --primary:#6c2bd9;
+    --primary-dark:#4b159d;
+    --secondary:#ff4d8d;
+    --accent:#00c2ff;
+    --success:#13c47a;
+    --warning:#ffb020;
+    --danger:#ff4757;
+    --dark:#15132b;
+    --text:#25233a;
+    --muted:#77748d;
+    --light:#f5f4fb;
+    --white:#ffffff;
+    --border:#e7e5f0;
+    --shadow:0 15px 40px rgba(50,28,100,.12);
+    --radius:20px;
+}
+
+* {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+}
+
+html {
+    scroll-behavior:smooth;
+}
+
+body {
+    min-height:100vh;
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",
+    Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 10% 10%,rgba(108,43,217,.15),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(255,77,141,.12),transparent 28%),
+        var(--light);
+}
+
+button,input {
+    font:inherit;
+}
+
+button {
+    cursor:pointer;
+}
+
+.hidden {
+    display:none!important;
+}
+
+/* ================= AUTH ================= */
+
+.auth-wrapper {
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    position:relative;
+    overflow:hidden;
+}
+
+.auth-wrapper::before,
+.auth-wrapper::after {
+
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(3px);
+    animation:floatBubble 7s ease-in-out infinite;
+}
+
+.auth-wrapper::before {
+    width:300px;
+    height:300px;
+    background:rgba(108,43,217,.16);
+    top:-100px;
+    left:-80px;
+}
+
+.auth-wrapper::after {
+    width:350px;
+    height:350px;
+    background:rgba(255,77,141,.13);
+    bottom:-150px;
+    right:-100px;
+    animation-delay:2s;
+}
+
+@keyframes floatBubble {
+    0%,100% {transform:translate(0,0);}
+    50% {transform:translate(20px,-25px);}
+}
+
+.auth-card {
+    width:min(460px,100%);
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.8);
+    border-radius:28px;
+    padding:34px;
+    box-shadow:var(--shadow);
+    position:relative;
+    z-index:2;
+    animation:cardIn .7s ease;
+}
+
+@keyframes cardIn {
+    from {
+         opacity:0;
+         transform:translateY(30px) scale(.97);
+    }
+    to {
+         opacity:1;
+         transform:translateY(0) scale(1);
+    }
+}
+
+.brand {
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.brand-logo {
+    width:72px;
+    height:72px;
+    margin:0 auto 14px;
+    border-radius:22px;
+    display:grid;
+    place-items:center;
+    color:white;
+    font-size:25px;
+    font-weight:900;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    box-shadow:0 12px 30px rgba(108,43,217,.3);
+}
+
+.brand h1 {
+    font-size:26px;
+    font-weight:900;
+}
+
+.brand p {
+    color:var(--muted);
+    margin-top:6px;
+    font-size:14px;
+}
+
+.tabs {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    padding:5px;
+    background:var(--light);
+    border-radius:14px;
+    margin-bottom:24px;
+}
+
+.tab {
+    border:0;
+    padding:11px;
+    background:transparent;
+    border-radius:10px;
+    color:var(--muted);
+    font-weight:700;
+}
+
+.tab.active {
+    background:white;
+    color:var(--primary);
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+}
+
+.form-group {
+    margin-bottom:17px;
+}
+
+.form-group label {
+    display:block;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.input {
+    width:100%;
+    padding:14px 15px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    outline:none;
+    background:#fff;
+    color:var(--text);
+    transition:.2s;
+}
+
+.input:focus {
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px rgba(108,43,217,.1);
+}
+
+.btn {
+    width:100%;
+    border:0;
+    border-radius:13px;
+    padding:14px 18px;
+    color:white;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn:hover {
+    transform:translateY(-2px);
+}
+
+.btn-primary {
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    box-shadow:0 10px 25px rgba(108,43,217,.25);
+}
+
+.btn-success {
+    background:linear-gradient(135deg,#08a96b,#15d891);
+}
+
+.btn-secondary {
+    background:#eeeaf8;
+    color:var(--primary);
+}
+
+.helper {
+    color:var(--muted);
+
+    font-size:12px;
+    margin-top:7px;
+    line-height:1.5;
+}
+
+.message {
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:16px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.message.error {
+    background:#fff0f1;
+    color:#b4232f;
+}
+
+.message.success {
+    background:#eafbf4;
+    color:#087c4d;
+}
+
+/* ================= ACTIVATION ================= */
+
+.activation-box {
+    background:linear-gradient(
+        135deg,
+        rgba(108,43,217,.09),
+        rgba(255,77,141,.08)
+    );
+    border:1px solid rgba(108,43,217,.12);
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:18px;
+}
+
+.activation-box h2 {
+    font-size:18px;
+    margin-bottom:14px;
+}
+
+.payment-detail {
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:9px 0;
+    border-bottom:1px dashed rgba(108,43,217,.18);
+    font-size:14px;
+}
+
+.payment-detail:last-child {
+    border-bottom:0;
+}
+
+.payment-detail strong {
+    color:var(--primary);
+}
+
+/* ================= APP ================= */
+
+#app {
+    min-height:100vh;
+}
+
+.topbar {
+    height:74px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(231,229,240,.8);
+}
+
+.topbar-left {
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+}
+
+.menu-button {
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:13px;
+    background:#f1eef9;
+    color:var(--primary);
+    display:grid;
+    place-items:center;
+    font-size:23px;
+}
+
+.top-brand {
+    font-weight:900;
+    font-size:17px;
+}
+
+.top-brand span {
+    color:var(--primary);
+}
+
+.user-pill {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 13px;
+    background:#f7f5fc;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.avatar {
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    color:white;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    font-size:12px;
+}
+
+.sidebar {
+    width:300px;
+    position:fixed;
+    top:0;
+    left:-320px;
+    bottom:0;
+    z-index:300;
+    padding:22px;
+    background:linear-gradient(
+        180deg,
+        #1b1235 0%,
+        #25114a 60%,
+        #35105d 100%
+    );
+    color:white;
+    box-shadow:15px 0 40px rgba(0,0,0,.18);
+    transition:left .3s ease;
+    overflow-y:auto;
+}
+
+.sidebar.open {
+    left:0;
+}
+
+.sidebar-head {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:26px;
+}
+
+.sidebar-title {
+    font-size:19px;
+    font-weight:900;
+}
+
+.close-sidebar {
+    width:36px;
+    height:36px;
+    border:0;
+    border-radius:10px;
+    background:rgba(255,255,255,.1);
+    color:white;
+    font-size:19px;
+}
+
+.nav-list {
+    list-style:none;
+    display:grid;
+    gap:8px;
+}
+
+.nav-list button {
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:0;
+    border-radius:13px;
+    padding:13px 14px;
+    text-align:left;
+    color:rgba(255,255,255,.86);
+    background:transparent;
+    font-weight:700;
+}
+
+.nav-list button:hover,
+.nav-list button.active {
+    background:rgba(255,255,255,.13);
+    color:white;
+}
+
+.nav-icon {
+    width:30px;
+    text-align:center;
+    font-size:18px;
+}
+
+.sidebar-footer {
+    position:absolute;
+    bottom:20px;
+    left:22px;
+    right:22px;
+}
+
+.logout-btn {
+    width:100%;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.07);
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    font-weight:800;
+}
+
+.overlay {
+    position:fixed;
+    inset:0;
+    background:rgba(10,6,25,.45);
+    z-index:250;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+
+.overlay.visible {
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* ================= DASHBOARD ================= */
+
+.main {
+    max-width:1240px;
+    margin:0 auto;
+    padding:30px 24px 50px;
+}
+
+.hero {
+    position:relative;
+    overflow:hidden;
+    padding:30px;
+    border-radius:25px;
+    color:white;
+    background:linear-gradient(
+        135deg,
+        #5e22bd,
+        #8f35d9 45%,
+        #f14587
+    );
+    box-shadow:0 18px 40px rgba(108,43,217,.2);
+}
+
+.hero h1 {
+    position:relative;
+    z-index:1;
+    font-size:clamp(25px,4vw,38px);
+    margin-bottom:8px;
+}
+
+.hero p {
+    position:relative;
+    z-index:1;
+    opacity:.9;
+}
+
+.hero-finances {
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    position:relative;
+    z-index:2;
+}
+
+.hero-finance {
+    padding:18px;
+    border-radius:17px;
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.22);
+    backdrop-filter:blur(8px);
+}
+
+.hero-finance-label {
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.7px;
+    opacity:.9;
+}
+
+.hero-finance-value {
+    margin-top:7px;
+    font-size:24px;
+    font-weight:950;
+}
+
+.stats-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:22px;
+}
+
+.stat-card {
+    position:relative;
+    overflow:hidden;
+    padding:23px;
+    border-radius:20px;
+    background:white;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    min-height:155px;
+}
+
+.stat-label {
+    color:var(--muted);
+    font-size:13px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+
+}
+
+.stat-value {
+    margin-top:9px;
+    font-size:clamp(24px,4vw,34px);
+    font-weight:950;
+    color:var(--dark);
+}
+
+.stat-sub {
+    margin-top:6px;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.balance-card {
+    border:2px solid rgba(19,196,122,.22);
+}
+
+.balance-card .stat-label {
+    color:#087c4d;
+}
+
+.balance-card .stat-value {
+    color:#087c4d;
+}
+
+.section {
+    margin-top:28px;
+}
+
+.section-title {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.section-title h2 {
+    font-size:20px;
+}
+
+.section-title span {
+    color:var(--muted);
+    font-size:12px;
+}
+
+.quick-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.quick-card {
+    min-height:130px;
+    padding:19px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:white;
+    box-shadow:0 8px 25px rgba(50,28,100,.07);
+    transition:.25s;
+}
+
+.quick-card:hover {
+    transform:translateY(-6px);
+    box-shadow:var(--shadow);
+}
+
+.quick-icon {
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    background:#f0ebfb;
+    color:var(--primary);
+    font-size:20px;
+    margin-bottom:13px;
+}
+
+.quick-card h3 {
+    font-size:14px;
+
+}
+
+.quick-card p {
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* ================= TEAM ================= */
+
+.team-panel,
+.content-card {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    box-shadow:var(--shadow);
+}
+
+.referral-box {
+    padding:16px;
+    border-radius:15px;
+    background:#f7f5fc;
+    margin-bottom:20px;
+}
+
+.referral-label {
+    color:var(--muted);
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.referral-row {
+    display:flex;
+    gap:8px;
+}
+
+.referral-input {
+    flex:1;
+    min-width:0;
+    border:1px solid var(--border);
+    background:white;
+    padding:11px;
+    border-radius:10px;
+    font-size:12px;
+}
+
+.copy-btn {
+    border:0;
+    border-radius:10px;
+    padding:0 15px;
+    background:var(--primary);
+    color:white;
+    font-weight:800;
+}
+
+.levels {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.level-card {
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:17px;
+    background:#fff;
+    position:relative;
+    overflow:hidden;
+}
+
+.level-number {
+    font-weight:950;
+    color:var(--primary);
+    font-size:17px;
+}
+
+.level-bonus {
+    color:var(--success);
+    font-size:12px;
+    font-weight:800;
+
+    margin-top:5px;
+}
+
+.level-count {
+    font-size:28px;
+    font-weight:950;
+    margin-top:12px;
+}
+
+.level-members {
+    margin-top:12px;
+    display:grid;
+    gap:7px;
+}
+
+.member {
+    padding:8px 10px;
+    border-radius:9px;
+    background:#f7f5fc;
+    font-size:12px;
+    font-weight:700;
+}
+
+.empty {
+    color:var(--muted);
+    font-size:12px;
+    padding:8px 0;
+}
+
+/* ================= WITHDRAW ================= */
+
+.withdraw-card {
+    max-width:650px;
+}
+
+.withdraw-info {
+    padding:17px;
+    border-radius:16px;
+    background:linear-gradient(
+        135deg,
+        rgba(19,196,122,.08),
+        rgba(0,194,255,.08)
+    );
+    border:1px solid rgba(19,196,122,.15);
+    margin-bottom:20px;
+}
+
+.withdraw-balance-label {
+    font-size:12px;
+    color:var(--muted);
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+.withdraw-balance {
+    font-size:32px;
+    color:#087c4d;
+    font-weight:950;
+    margin-top:5px;
+}
+
+.withdraw-note {
+    margin-top:7px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.withdraw-history {
+    margin-top:28px;
+}
+
+.withdraw-item {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px;
+    background:#f8f7fc;
+    border-radius:13px;
+    margin-bottom:9px;
+}
+
+.withdraw-item-left strong {
+    display:block;
+    font-size:13px;
+}
+
+.withdraw-item-left span {
+    color:var(--muted);
+    font-size:11px;
+}
+
+.withdraw-status {
+    font-size:11px;
+    font-weight:900;
+    padding:6px 9px;
+    border-radius:20px;
+}
+
+.withdraw-status.pending {
+    background:#fff5dc;
+    color:#9b6800;
+}
+
+.withdraw-status.approved {
+    background:#eafbf4;
+    color:#087c4d;
+}
+
+/* ================= CONTENT ================= */
+
+.content-card h2 {
+    margin-bottom:8px;
+}
+
+.content-card > p {
+    color:var(--muted);
+    margin-bottom:22px;
+}
+
+.content-list {
+    display:grid;
+    gap:12px;
+}
+
+.content-item {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    border-radius:15px;
+    background:#f8f7fc;
+}
+
+.content-item-icon {
+    width:43px;
+    height:43px;
+    flex:0 0 43px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:white;
+    color:var(--primary);
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+}
+
+.content-item strong {
+    display:block;
+    font-size:14px;
+}
+
+.content-item span {
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
+
+/* ================= TOAST ================= */
+
+.toast {
+    position:fixed;
+    left:50%;
+    bottom:25px;
+
+    z-index:1000;
+    transform:translate(-50%,100px);
+    opacity:0;
+    padding:13px 18px;
+    border-radius:12px;
+    color:white;
+    background:#1f1933;
+    box-shadow:var(--shadow);
+    font-size:13px;
+    font-weight:800;
+    transition:.3s;
+}
+
+.toast.show {
+    transform:translate(-50%,0);
+    opacity:1;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px) {
+    .stats-grid {
+        grid-template-columns:1fr 1fr;
+    }
+
+    .quick-grid {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .levels {
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:620px) {
+    .topbar {
+        padding:0 14px;
+    }
+
+    .top-brand {
+        font-size:14px;
+    }
+
+    .user-pill {
+        padding:5px;
+        background:transparent;
+    }
+
+    .user-pill span {
+        display:none;
+    }
+
+    .main {
+        padding:20px 14px 40px;
+    }
+
+    .hero {
+        padding:23px;
+    }
+
+    .hero-finances,
+    .stats-grid,
+    .quick-grid {
+        grid-template-columns:1fr;
+    }
+
+    .auth-card {
+        padding:25px 20px;
+    }
+
+    .sidebar {
+        width:285px;
+    }
+
+    .referral-row {
+        flex-direction:column;
+    }
+
+    .copy-btn {
+        padding:11px;
+    }
+
+    .withdraw-item {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= AUTH ================= -->
+
+<section id="authView" class="auth-wrapper">
+
+<div class="auth-card">
+
+<div class="brand">
+<div class="brand-logo">GA</div>
+<h1>GOLYBRAND AGENCIES</h1>
+<p>Agent Management &amp; Referral Platform</p>
+</div>
+
+<div id="authMessage"></div>
+
+<div class="tabs">
+<button id="loginTab"
+class="tab active"
+type="button"
+onclick="showAuthForm('login')">
+Login
+</button>
+
+<button id="registerTab"
+class="tab"
+type="button"
+onclick="showAuthForm('register')">
+Register
+</button>
+</div>
+
+<form id="loginForm" onsubmit="handleLogin(event)">
+
+<div class="form-group">
+<label for="loginUsername">Username</label>
+<input id="loginUsername"
+class="input"
+type="text"
+placeholder="Enter your username"
+required>
+</div>
+
+<div class="form-group">
+<label for="loginPassword">Password</label>
+<input id="loginPassword"
+class="input"
+type="password"
+placeholder="Enter your password"
+required>
+</div>
+
+<button class="btn btn-primary" type="submit">
+Login
+</button>
+
+</form>
+
+<form id="registerForm"
+class="hidden"
+onsubmit="handleRegistration(event)">
+
+<div class="form-group">
+<label for="registerUsername">Unique Username</label>
+<input id="registerUsername"
+class="input"
+type="text"
+placeholder="Choose a unique username"
+minlength="3"
+maxlength="30"
+pattern="[A-Za-z0-9_]+"
+required>
+</div>
+
+<div class="form-group">
+<label for="registerName">Full Name</label>
+<input id="registerName"
+class="input"
+type="text"
+placeholder="Your full name"
+required>
+</div>
+
+<div class="form-group">
+<label for="registerPhone">Phone Number</label>
+<input id="registerPhone"
+class="input"
+type="tel"
+placeholder="e.g. 0712345678"
+required>
+</div>
+
+<div class="form-group">
+<label for="registerPassword">Password</label>
+<input id="registerPassword"
+class="input"
+type="password"
+placeholder="Create a password"
+minlength="6"
+required>
+</div>
+
+<div class="form-group">
+<label for="registerReferral">
+Referral Username
+</label>
+
+<input id="registerReferral"
+class="input"
+type="text"
+placeholder="Optional referral username">
+</div>
+
+<button class="btn btn-primary" type="submit">
+Register
+</button>
+
+</form>
+
+</div>
+</section>
+
+<!-- ================= ACTIVATION ================= -->
+
+<section id="activationView"
+class="auth-wrapper hidden">
+
+<div class="auth-card">
+
+<div class="brand">
+<div class="brand-logo">GA</div>
+<h1>Activate Account</h1>
+<p>Complete your Ksh 1,000 registration payment.</p>
+</div>
+
+<div id="activationMessage"></div>
+
+<div class="activation-box">
+
+<h2>TO Activate</h2>
+
+<div class="payment-detail">
+<span>Payment Method</span>
+<strong>Lipa na M-Pesa</strong>
+</div>
+
+<div class="payment-detail">
+<span>Till No</span>
+<strong>8286400</strong>
+</div>
+
+<div class="payment-detail">
+<span>Amount</span>
+<strong>Ksh 1,000</strong>
+</div>
+
+</div>
+
+<form onsubmit="handleActivation(event)">
+
+<div class="form-group">
+<label for="mpesaCode">M-Pesa Code</label>
+
+<input id="mpesaCode"
+class="input"
+type="text"
+placeholder="Enter your M-Pesa transaction code"
+required>
+
+<div class="helper">
+Enter the confirmation code received after payment.
+</div>
+</div>
+
+<button class="btn btn-success" type="submit">
+Submit &amp; Activate
+</button>
+
+</form>
+
+<div style="height:10px"></div>
+
+<button class="btn btn-secondary"
+type="button"
+onclick="cancelActivation()">
+Back to Login
+</button>
+
+</div>
+</section>
+
+<!-- ================= APP ================= -->
+
+<section id="app" class="hidden">
+
+<header class="topbar">
+
+<div class="topbar-left">
+
+<button class="menu-button"
+type="button"
+onclick="toggleSidebar()">
+■
+</button>
+
+<div class="top-brand">
+<span>GOLYBRAND</span> AGENCIES
+</div>
+
+</div>
+
+<div class="user-pill">
+
+<div id="topAvatar" class="avatar">
+GA
+</div>
+
+<span id="topUsername"></span>
+
+</div>
+
+</header>
+
+<aside id="sidebar" class="sidebar">
+
+<div class="sidebar-head">
+
+<div class="sidebar-title">
+GOLYBRAND
+</div>
+
+<button class="close-sidebar"
+type="button"
+onclick="toggleSidebar(false)">
+×
+</button>
+
+</div>
+
+<ul class="nav-list">
+
+<li>
+<button id="navDashboard"
+class="active"
+onclick="showPage('dashboard')">
+<span class="nav-icon">■</span>
+Dashboard
+</button>
+</li>
+
+<li>
+<button onclick="showPage('trivia')">
+<span class="nav-icon">■</span>
+Trivia Questions
+</button>
+</li>
+
+<li>
+<button onclick="showPage('forex')">
+<span class="nav-icon">■</span>
+Weekly Forex Classes
+</button>
+</li>
+
+<li>
+<button onclick="showPage('ebooks')">
+<span class="nav-icon">■</span>
+E-books
+</button>
+</li>
+
+<li>
+<button onclick="showPage('tiktok')">
+<span class="nav-icon">■</span>
+TikTok Videos
+</button>
+</li>
+
+<li>
+<button onclick="showPage('awards')">
+<span class="nav-icon">■</span>
+Best Agent Awards
+</button>
+</li>
+
+<li>
+<button id="navTeam"
+onclick="showPage('team')">
+<span class="nav-icon">■</span>
+My Team
+</button>
+</li>
+
+<li>
+<button id="navWithdraw"
+onclick="showPage('withdraw')">
+<span class="nav-icon">■</span>
+Withdraw
+</button>
+</li>
+
+</ul>
+
+<div class="sidebar-footer">
+
+<button class="logout-btn"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+</aside>
+
+<div id="overlay"
+class="overlay"
+onclick="toggleSidebar(false)">
+</div>
+
+<main id="mainContent" class="main"></main>
+
+</section>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY = "golybrand_users";
+const SESSION_KEY = "golybrand_session";
+const PENDING_KEY = "golybrand_pending_activation";
+
+const BONUS = {
+    level1:500,
+    level2:300,
+    level3:100
+};
+
+const MIN_WITHDRAWAL = 500;
+const REGISTRATION_FEE = 1000;
+
+
+/* =========================================================
+   USERS
+========================================================= */
+
+function getUsers() {
+
+    try {
+        return JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+    } catch {
+        return [];
+    }
+}
+
+function saveUsers(users) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(users)
+    );
+}
+
+function getCurrentUser() {
+
+    const username =
+        localStorage.getItem(SESSION_KEY);
+
+    if (!username) return null;
+
+    return getUsers().find(
+        user => user.username === username
+    ) || null;
+}
+
+function normalizeUsername(username) {
+
+    return (username || "")
+        .trim()
+        .toLowerCase();
+}
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function formatCurrency(amount) {
+
+    return new Intl.NumberFormat("en-KE",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+
+    }).format(Number(amount) || 0);
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+function showAuthMessage(
+    message,
+    type="error",
+    target="authMessage"
+) {
+
+    const element =
+        document.getElementById(target);
+
+    element.innerHTML = `
+        <div class="message ${type}">
+            ${escapeHtml(message)}
+        </div>
+    `;
+}
+
+function clearMessage(target) {
+
+    document.getElementById(target).innerHTML = "";
+}
+
+
+/* =========================================================
+   AUTH TABS
+========================================================= */
+
+function showAuthForm(type) {
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
+
+    clearMessage("authMessage");
+
+    if (type === "register") {
+
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+
+        loginTab.classList.remove("active");
+        registerTab.classList.add("active");
+
+        return;
+    }
+
+    registerForm.classList.add("hidden");
+    loginForm.classList.remove("hidden");
+
+    registerTab.classList.remove("active");
+    loginTab.classList.add("active");
+}
+
+
+/* =========================================================
+   REGISTRATION
+========================================================= */
+
+function handleRegistration(event) {
+
+    event.preventDefault();
+
+    const username =
+        normalizeUsername(
+            document.getElementById("registerUsername").value
+        );
+
+const fullName =
+    document.getElementById("registerName")
+    .value.trim();
+
+const phone =
+    document.getElementById("registerPhone")
+    .value.trim();
+
+const password =
+    document.getElementById("registerPassword")
+    .value;
+
+const referral =
+    normalizeUsername(
+        document.getElementById("registerReferral")
+        .value
+    );
+
+const users = getUsers();
+
+if (users.some(
+     user => user.username === username
+)) {
+
+     showAuthMessage(
+         "That username is already taken. Please choose another username."
+     );
+
+     return;
+}
+
+if (referral &&
+    !users.some(
+        user => user.username === referral
+    )
+) {
+
+     showAuthMessage(
+         "The referral username does not exist."
+     );
+
+     return;
+}
+
+const user = {
+
+     id:
+           crypto.randomUUID
+           ? crypto.randomUUID()
+           : `${Date.now()}-${Math.random()}`,
+
+     username,
+     fullName,
+     phone,
+     password,
+
+     sponsor:
+         referral || null,
+
+     activated:false,
+
+     mpesaCode:null,
+
+     registrationExpense:
+         REGISTRATION_FEE,
+
+     withdrawals:[],
+
+     createdAt:
+         new Date().toISOString()
+};
+
+users.push(user);
+
+saveUsers(users);
+
+localStorage.setItem(
+    PENDING_KEY,
+    username
+);
+
+document.getElementById("authView")
+
+        .classList.add("hidden");
+
+    document.getElementById("activationView")
+        .classList.remove("hidden");
+
+    clearMessage("activationMessage");
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function handleLogin(event) {
+
+    event.preventDefault();
+
+    const username =
+        normalizeUsername(
+            document.getElementById("loginUsername")
+            .value
+        );
+
+    const password =
+        document.getElementById("loginPassword")
+        .value;
+
+    const user =
+        getUsers().find(
+            item =>
+                 item.username === username &&
+                 item.password === password
+        );
+
+    if (!user) {
+
+        showAuthMessage(
+            "Incorrect username or password."
+        );
+
+        return;
+    }
+
+    if (!user.activated) {
+
+        localStorage.setItem(
+            PENDING_KEY,
+            user.username
+        );
+
+        document.getElementById("authView")
+            .classList.add("hidden");
+
+        document.getElementById("activationView")
+            .classList.remove("hidden");
+
+        return;
+    }
+
+    localStorage.setItem(
+        SESSION_KEY,
+        user.username
+    );
+
+    showApplication();
+}
+
+
+/* =========================================================
+   ACTIVATION
+========================================================= */
+
+function handleActivation(event) {
+
+    event.preventDefault();
+
+    const code =
+        document.getElementById("mpesaCode")
+        .value
+        .trim()
+        .toUpperCase();
+
+    if (!code) {
+
+        showAuthMessage(
+            "Please enter your M-Pesa code.",
+            "error",
+            "activationMessage"
+        );
+
+        return;
+    }
+
+    const pendingUsername =
+        localStorage.getItem(PENDING_KEY);
+
+    if (!pendingUsername) {
+
+        showAuthMessage(
+            "No pending registration was found.",
+            "error",
+            "activationMessage"
+        );
+
+        return;
+    }
+
+    const users = getUsers();
+
+    const index =
+        users.findIndex(
+            user =>
+                user.username === pendingUsername
+        );
+
+    if (index === -1) {
+
+        showAuthMessage(
+            "Registration could not be found.",
+            "error",
+            "activationMessage"
+        );
+
+        return;
+    }
+
+    users[index].activated = true;
+
+    users[index].mpesaCode = code;
+
+    users[index].activatedAt =
+        new Date().toISOString();
+
+    users[index].withdrawals =
+        users[index].withdrawals || [];
+
+    saveUsers(users);
+
+    localStorage.setItem(
+        SESSION_KEY,
+        pendingUsername
+    );
+
+    localStorage.removeItem(
+        PENDING_KEY
+    );
+
+    document.getElementById("activationView")
+        .classList.add("hidden");
+
+    showApplication();
+
+    showToast(
+        "Account activated successfully!"
+    );
+}
+
+function cancelActivation() {
+
+    localStorage.removeItem(PENDING_KEY);
+
+    document.getElementById("activationView")
+        .classList.add("hidden");
+
+    document.getElementById("authView")
+        .classList.remove("hidden");
+
+    showAuthForm("login");
+}
+
+
+/* =========================================================
+   APPLICATION
+========================================================= */
+
+function showApplication() {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+
+        logout();
+
+        return;
+    }
+
+    document.getElementById("authView")
+        .classList.add("hidden");
+
+    document.getElementById("activationView")
+        .classList.add("hidden");
+
+    document.getElementById("app")
+        .classList.remove("hidden");
+
+    document.getElementById("topUsername")
+        .textContent = user.username;
+
+    document.getElementById("topAvatar")
+        .textContent =
+            user.username
+            .slice(0,2)
+            .toUpperCase();
+
+    showPage("dashboard");
+}
+
+function logout() {
+
+    localStorage.removeItem(
+        SESSION_KEY
+    );
+
+    document.getElementById("app")
+        .classList.add("hidden");
+
+    document.getElementById("activationView")
+        .classList.add("hidden");
+
+    document.getElementById("authView")
+        .classList.remove("hidden");
+
+    showAuthForm("login");
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar(force) {
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const overlay =
+        document.getElementById("overlay");
+
+    const shouldOpen =
+        typeof force === "boolean"
+        ? force
+        : !sidebar.classList.contains("open");
+
+    sidebar.classList.toggle(
+        "open",
+        shouldOpen
+
+    );
+
+    overlay.classList.toggle(
+        "visible",
+        shouldOpen
+    );
+}
+
+
+/* =========================================================
+   TEAM
+========================================================= */
+
+function getTeam(user) {
+
+    const users =
+        getUsers()
+        .filter(item => item.activated);
+
+    const level1 =
+        users.filter(
+            item =>
+                item.sponsor === user.username
+        );
+
+    const level1Usernames =
+        new Set(
+            level1.map(
+                 item => item.username
+            )
+        );
+
+    const level2 =
+        users.filter(
+            item =>
+                item.sponsor &&
+                level1Usernames.has(
+                    item.sponsor
+                )
+        );
+
+    const level2Usernames =
+        new Set(
+            level2.map(
+                 item => item.username
+            )
+        );
+
+    const level3 =
+        users.filter(
+            item =>
+                item.sponsor &&
+                level2Usernames.has(
+                    item.sponsor
+                )
+        );
+
+    return {
+        level1,
+        level2,
+        level3
+    };
+}
+
+
+/* =========================================================
+   PROFITS
+========================================================= */
+
+function calculateProfits(user) {
+
+    const team = getTeam(user);
+
+    return (
+        team.level1.length * BONUS.level1 +
+        team.level2.length * BONUS.level2 +
+        team.level3.length * BONUS.level3
+    );
+}
+
+
+/* =========================================================
+
+   WITHDRAWAL TOTAL
+========================================================= */
+
+function getTotalWithdrawals(user) {
+
+    if (!user.withdrawals) {
+        return 0;
+    }
+
+    return user.withdrawals
+        .filter(
+            withdrawal =>
+                 withdrawal.status !== "rejected"
+        )
+        .reduce(
+            (total, withdrawal) =>
+                 total + Number(withdrawal.amount),
+            0
+        );
+}
+
+
+/* =========================================================
+   AVAILABLE BALANCE
+========================================================= */
+
+function getAvailableBalance(user) {
+
+    const profits =
+        calculateProfits(user);
+
+    const withdrawals =
+        getTotalWithdrawals(user);
+
+    return Math.max(
+        0,
+        profits - withdrawals
+    );
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+
+        logout();
+
+        return;
+    }
+
+    const profits =
+        calculateProfits(user);
+
+    const balance =
+        getAvailableBalance(user);
+
+    document.getElementById("mainContent")
+        .innerHTML = `
+
+<section class="hero">
+
+<h1>
+Welcome, ${escapeHtml(user.fullName)} ■
+</h1>
+
+<p>
+Welcome to your GOLYBRAND AGENCIES agent dashboard.
+</p>
+
+<!-- EXPENSES + PROFITS DIRECTLY INSIDE WELCOME -->
+
+<div class="hero-finances">
+
+<div class="hero-finance">
+
+<div class="hero-finance-label">
+
+EXPENSES
+</div>
+
+<div class="hero-finance-value">
+Ksh ${formatCurrency(REGISTRATION_FEE)}
+</div>
+
+</div>
+
+<div class="hero-finance">
+
+<div class="hero-finance-label">
+PROFITS
+</div>
+
+<div class="hero-finance-value">
+Ksh ${formatCurrency(profits)}
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MAIN FINANCIAL ICONS -->
+
+<section class="stats-grid">
+
+<article class="stat-card">
+
+<div class="stat-label">
+Expenses
+</div>
+
+<div class="stat-value">
+Ksh ${formatCurrency(REGISTRATION_FEE)}
+</div>
+
+<div class="stat-sub">
+Overall registration fee
+</div>
+
+</article>
+
+
+<article class="stat-card">
+
+<div class="stat-label">
+Profits
+</div>
+
+<div class="stat-value">
+Ksh ${formatCurrency(profits)}
+</div>
+
+<div class="stat-sub">
+Referral bonuses earned
+</div>
+
+</article>
+
+
+<!-- AVAILABLE BALANCE BELOW PROFITS -->
+
+<article class="stat-card balance-card">
+
+<div class="stat-label">
+Available Balance
+</div>
+
+<div class="stat-value">
+Ksh ${formatCurrency(balance)}
+</div>
+
+<div class="stat-sub">
+Available withdrawable balance
+</div>
+
+</article>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>
+Quick Access
+</h2>
+
+<span>
+Explore GOLYBRAND
+</span>
+
+</div>
+
+
+<div class="quick-grid">
+
+<article class="quick-card"
+onclick="showPage('trivia')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+Trivia Questions
+</h3>
+
+<p>
+Test your knowledge.
+</p>
+
+</article>
+
+
+<article class="quick-card"
+onclick="showPage('forex')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+Forex Classes
+</h3>
+
+<p>
+Learn every week.
+</p>
+
+</article>
+
+
+<article class="quick-card"
+onclick="showPage('ebooks')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+E-books
+</h3>
+
+<p>
+Grow your knowledge.
+</p>
+
+</article>
+
+
+<article class="quick-card"
+onclick="showPage('tiktok')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+
+■
+</div>
+
+<h3>
+TikTok Videos
+</h3>
+
+<p>
+Watch featured content.
+</p>
+
+</article>
+
+
+<article class="quick-card"
+onclick="showPage('awards')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+Best Agent Awards
+</h3>
+
+<p>
+Celebrate top agents.
+</p>
+
+</article>
+
+
+<!-- MY TEAM -->
+
+<article class="quick-card"
+onclick="showPage('team')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+My Team
+</h3>
+
+<p>
+Manage your referral network.
+</p>
+
+</article>
+
+
+<!-- WITHDRAW BELOW MY TEAM -->
+
+<article class="quick-card"
+onclick="showPage('withdraw')"
+style="cursor:pointer">
+
+<div class="quick-icon">
+■
+</div>
+
+<h3>
+Withdraw
+</h3>
+
+<p>
+Withdraw your available balance.
+</p>
+
+</article>
+
+</div>
+
+</section>
+`;
+}
+
+
+/* =========================================================
+
+   TEAM PAGE
+========================================================= */
+
+function renderTeam() {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+
+         logout();
+
+         return;
+    }
+
+    const team =
+        getTeam(user);
+
+    const profits =
+        calculateProfits(user);
+
+    const referralUrl =
+        `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(user.username)}`;
+
+    document.getElementById("mainContent")
+        .innerHTML = `
+
+<section class="content-card">
+
+<h2>
+My Team ■
+</h2>
+
+<p>
+Build your team and earn bonuses from activated referrals.
+</p>
+
+
+<div class="referral-box">
+
+<div class="referral-label">
+YOUR REFERRAL LINK
+</div>
+
+<div class="referral-row">
+
+<input
+id="referralLink"
+class="referral-input"
+type="text"
+value="${escapeHtml(referralUrl)}"
+readonly
+>
+
+<button
+class="copy-btn"
+onclick="copyReferralLink()">
+Copy
+</button>
+
+</div>
+
+<div class="helper">
+
+Your unique username:
+<strong>
+${escapeHtml(user.username)}
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="levels">
+
+${renderLevel(
+1,
+BONUS.level1,
+team.level1
+)}
+
+${renderLevel(
+
+2,
+BONUS.level2,
+team.level2
+)}
+
+${renderLevel(
+3,
+BONUS.level3,
+team.level3
+)}
+
+</div>
+
+
+<div class="section">
+
+<div class="section-title">
+
+<h2>
+Total Team Earnings
+</h2>
+
+<span>
+Ksh ${formatCurrency(profits)}
+</span>
+
+</div>
+
+</div>
+
+</section>
+`;
+}
+
+
+/* =========================================================
+   LEVELS
+========================================================= */
+
+function renderLevel(
+    level,
+    bonus,
+    members
+) {
+
+    const memberHtml =
+        members.length
+
+          ? members.map(member => `
+
+<div class="member">
+
+${escapeHtml(member.username)}
+
+<span style="float:right;color:#13c47a">
+
+Ksh ${formatCurrency(bonus)}
+
+</span>
+
+</div>
+
+`).join("")
+
+          : `
+
+<div class="empty">
+No activated members yet.
+</div>
+`;
+
+    return `
+
+<article class="level-card">
+
+<div class="level-number">
+LEVEL ${level}
+</div>
+
+<div class="level-bonus">
+Ksh ${formatCurrency(bonus)} per activated member
+</div>
+
+<div class="level-count">
+${members.length}
+</div>
+
+<div class="helper">
+Activated members
+</div>
+
+<div class="level-members">
+${memberHtml}
+</div>
+
+</article>
+`;
+}
+
+
+/* =========================================================
+   WITHDRAW PAGE
+========================================================= */
+
+function renderWithdraw() {
+
+    const user =
+        getCurrentUser();
+
+    if (!user) {
+
+         logout();
+
+         return;
+    }
+
+    const balance =
+        getAvailableBalance(user);
+
+    const withdrawals =
+        user.withdrawals || [];
+
+    document.getElementById("mainContent")
+        .innerHTML = `
+
+<section class="content-card withdraw-card">
+
+<h2>
+Withdraw ■
+</h2>
+
+<p>
+Withdraw funds from your available withdrawable balance.
+</p>
+
+
+<div class="withdraw-info">
+
+<div class="withdraw-balance-label">
+Available Withdrawable Balance
+</div>
+
+<div class="withdraw-balance">
+Ksh ${formatCurrency(balance)}
+</div>
+
+<div class="withdraw-note">
+Minimum withdrawal is Ksh 500.
+</div>
+
+</div>
+
+
+<div id="withdrawMessage"></div>
+
+
+<form onsubmit="handleWithdrawal(event)">
+
+<div class="form-group">
+
+<label for="withdrawPhone">
+M-Pesa Phone Number
+</label>
+
+<input
+id="withdrawPhone"
+class="input"
+type="tel"
+placeholder="e.g. 0712345678"
+value="${escapeHtml(user.phone || "")}"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="withdrawAmount">
+Withdrawal Amount
+</label>
+
+<input
+id="withdrawAmount"
+class="input"
+type="number"
+min="${MIN_WITHDRAWAL}"
+step="1"
+placeholder="Minimum Ksh 500"
+required
+>
+
+<div class="helper">
+You can only withdraw up to your available balance.
+</div>
+
+</div>
+
+
+<button
+class="btn btn-success"
+type="submit">
+
+Request Withdrawal
+
+</button>
+
+</form>
+
+
+<div class="withdraw-history">
+
+<div class="section-title">
+
+<h2>
+Withdrawal History
+</h2>
+
+</div>
+
+${
+     withdrawals.length
+     ? withdrawals
+         .slice()
+         .reverse()
+         .map(renderWithdrawalItem)
+         .join("")
+     : `
+         <div class="empty">
+         No withdrawal requests yet.
+         </div>
+     `
+}
+
+</div>
+
+</section>
+`;
+}
+
+
+/* =========================================================
+   WITHDRAW ITEM
+========================================================= */
+
+function renderWithdrawalItem(withdrawal) {
+
+    const status =
+        withdrawal.status || "pending";
+
+    const date =
+        withdrawal.createdAt
+        ? new Date(
+            withdrawal.createdAt
+        ).toLocaleString("en-KE")
+        : "";
+
+    return `
+
+<div class="withdraw-item">
+
+<div class="withdraw-item-left">
+
+<strong>
+Ksh ${formatCurrency(withdrawal.amount)}
+</strong>
+
+<span>
+${escapeHtml(withdrawal.phone)}
+<br>
+${escapeHtml(date)}
+</span>
+
+</div>
+
+<div class="withdraw-status ${escapeHtml(status)}">
+
+${escapeHtml(
+    status.charAt(0).toUpperCase() +
+    status.slice(1)
+)}
+
+</div>
+
+</div>
+`;
+}
+
+
+/* =========================================================
+   PROCESS WITHDRAWAL
+========================================================= */
+
+function handleWithdrawal(event) {
+
+    event.preventDefault();
+
+    const user =
+        getCurrentUser();
+
+    if (!user) {
+
+         logout();
+
+         return;
+    }
+
+    const phone =
+        document.getElementById("withdrawPhone")
+        .value.trim();
+
+    const amount =
+        Number(
+            document.getElementById("withdrawAmount")
+            .value
+        );
+
+    const balance =
+        getAvailableBalance(user);
+
+    if (!phone) {
+
+         showAuthMessage(
+             "Please enter your M-Pesa phone number.",
+             "error",
+             "withdrawMessage"
+         );
+
+          return;
+    }
+
+    if (!amount ||
+        amount < MIN_WITHDRAWAL
+    ) {
+
+          showAuthMessage(
+              "Minimum withdrawal amount is Ksh 500.",
+              "error",
+              "withdrawMessage"
+          );
+
+          return;
+    }
+
+    if (amount > balance) {
+
+          showAuthMessage(
+              `You cannot withdraw more than your available balance of Ksh ${formatCurrency(balance)}.`,
+              "error",
+              "withdrawMessage"
+          );
+
+          return;
+    }
+
+    /*
+         The amount is reserved immediately as a pending
+         withdrawal so the user cannot request the same
+         available balance repeatedly.
+    */
+
+    const users =
+        getUsers();
+
+    const index =
+        users.findIndex(
+            item =>
+                item.username === user.username
+        );
+
+    if (index === -1) {
+
+          showAuthMessage(
+              "User account could not be found.",
+              "error",
+              "withdrawMessage"
+          );
+
+          return;
+    }
+
+    users[index].withdrawals =
+        users[index].withdrawals || [];
+
+    users[index].withdrawals.push({
+
+          id:
+                crypto.randomUUID
+                ? crypto.randomUUID()
+                : `${Date.now()}-${Math.random()}`,
+
+          phone,
+
+          amount,
+
+          status:"pending",
+
+          createdAt:
+              new Date().toISOString()
+    });
+
+    saveUsers(users);
+
+    showToast(
+        "Withdrawal request submitted successfully."
+    );
+
+    renderWithdraw();
+}
+
+/* =========================================================
+   CONTENT PAGES
+========================================================= */
+
+const PAGE_CONTENT = {
+
+   trivia:{
+       title:"Trivia Questions",
+       description:
+            "Test your knowledge and keep learning.",
+       items:[
+            [
+                "■",
+                "Daily Trivia",
+                "New questions can be added by the administrator."
+            ],
+            [
+                "■",
+                "Agent Challenge",
+                "Challenge yourself and improve your knowledge."
+            ]
+       ]
+   },
+
+   forex:{
+       title:"Weekly Forex Classes",
+       description:
+           "Your weekly learning area for Forex education.",
+       items:[
+           [
+               "■",
+               "Forex Fundamentals",
+               "Learn the foundations of currency trading."
+           ],
+           [
+               "■",
+               "Weekly Classes",
+               "Class schedules and learning materials appear here."
+           ]
+       ]
+   },
+
+   ebooks:{
+       title:"E-books",
+       description:
+            "Access your available digital learning materials.",
+       items:[
+            [
+                "■",
+                "Business Guide",
+                "Digital learning resources for agents."
+            ],
+            [
+                "■",
+                "Sales & Marketing",
+                "Resources to help improve your sales skills."
+            ]
+       ]
+   },
+
+   tiktok:{
+       title:"TikTok Videos",
+       description:
+            "Watch featured GOLYBRAND AGENCIES content.",
+       items:[
+            [
+                "■",
+                "Featured Videos",
+                "Your selected TikTok videos can be displayed here."
+            ],
+            [
+                "■",
+                "Agent Content",
+                "Follow the latest agent-focused content."
+            ]
+       ]
+   },
+
+   awards:{
+       title:"Best Agent Awards",
+       description:
+
+             "Recognizing outstanding GOLYBRAND AGENCIES agents.",
+         items:[
+             [
+                 "■",
+                 "Top Agents",
+                 "Your best-performing agents can be displayed here."
+             ],
+             [
+                 "■",
+                 "Monthly Recognition",
+                 "Celebrate agents who achieve outstanding results."
+             ]
+         ]
+     }
+};
+
+
+/* =========================================================
+   CONTENT RENDER
+========================================================= */
+
+function renderContentPage(page) {
+
+     const content =
+         PAGE_CONTENT[page];
+
+     document.getElementById("mainContent")
+         .innerHTML = `
+
+<section class="content-card">
+
+<h2>
+${escapeHtml(content.title)}
+</h2>
+
+<p>
+${escapeHtml(content.description)}
+</p>
+
+<div class="content-list">
+
+${content.items.map(item => `
+
+<div class="content-item">
+
+<div class="content-item-icon">
+${item[0]}
+</div>
+
+<div>
+
+<strong>
+${escapeHtml(item[1])}
+</strong>
+
+<span>
+${escapeHtml(item[2])}
+</span>
+
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</section>
+`;
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(page) {
+
+     toggleSidebar(false);
+
+     document.querySelectorAll(
+         ".nav-list button"
+
+    ).forEach(button => {
+
+          button.classList.remove(
+              "active"
+          );
+
+    });
+
+    if (page === "dashboard") {
+
+          document.getElementById(
+              "navDashboard"
+          ).classList.add("active");
+
+          renderDashboard();
+
+          return;
+    }
+
+    if (page === "team") {
+
+          document.getElementById(
+              "navTeam"
+          ).classList.add("active");
+
+          renderTeam();
+
+          return;
+    }
+
+    if (page === "withdraw") {
+
+          document.getElementById(
+              "navWithdraw"
+          ).classList.add("active");
+
+          renderWithdraw();
+
+          return;
+    }
+
+    renderContentPage(page);
+}
+
+
+/* =========================================================
+   COPY REFERRAL
+========================================================= */
+
+async function copyReferralLink() {
+
+    const input =
+        document.getElementById(
+            "referralLink"
+        );
+
+    try {
+
+          await navigator.clipboard
+              .writeText(input.value);
+
+          showToast(
+              "Referral link copied!"
+          );
+
+    } catch {
+
+          input.select();
+
+          document.execCommand("copy");
+
+          showToast(
+              "Referral link copied!"
+          );
+    }
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    window.clearTimeout(
+        showToast.timeout
+    );
+
+    showToast.timeout =
+        window.setTimeout(
+            () => {
+
+                      toast.classList.remove(
+                          "show"
+                      );
+
+               },
+               2500
+          );
+}
+
+
+/* =========================================================
+   REFERRAL URL
+========================================================= */
+
+function applyReferralFromUrl() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const referral =
+        normalizeUsername(
+            params.get("ref") || ""
+        );
+
+    if (!referral) {
+        return;
+    }
+
+    const users =
+        getUsers();
+
+    const sponsorExists =
+        users.some(
+            user =>
+                user.username === referral
+        );
+
+    if (!sponsorExists) {
+        return;
+    }
+
+    showAuthForm("register");
+
+    document.getElementById(
+        "registerReferral"
+    ).value = referral;
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+function initialize() {
+
+    const currentUser =
+        getCurrentUser();
+
+    if (
+          currentUser &&
+          currentUser.activated
+    ) {
+
+          showApplication();
+
+          return;
+    }
+
+    const pendingUsername =
+        localStorage.getItem(
+            PENDING_KEY
+        );
+
+    if (pendingUsername) {
+
+          document.getElementById(
+              "authView"
+          ).classList.add("hidden");
+
+          document.getElementById(
+              "activationView"
+          ).classList.remove("hidden");
+
+          return;
+    }
+
+    document.getElementById(
+        "authView"
+    ).classList.remove("hidden");
+
+    applyReferralFromUrl();
+}
+
+initialize();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+GOLYBRAND AGENCIES - DEPLOYMENT HANDOFF
+========================================
+
+This package is a CLEAN deployment build. It contains NO test users, NO test withdrawals, and NO pre-created administrator account.
+
+IMPORTANT: A hosting/deployment administrator must perform the configuration below before going live.
+
+1. SERVER REQUIREMENTS
+- PHP with PDO and PDO_MySQL enabled.
+- MySQL/MariaDB.
+- HTTPS enabled for the live domain.
+- A web server configured to serve the project directory.
+
+2. DATABASE
+- Create a production MySQL database.
+- Import database/database.sql.
+- The SQL creates users, withdrawals and admins tables.
+- The database starts with zero users, zero withdrawals and zero admins.
+
+3. BACKEND CONFIGURATION
+Edit backend/config.php and replace DB_HOST, DB_NAME, DB_USER, DB_PASS and ADMIN_REGISTRATION_KEY.
+Use a dedicated MySQL user with only the privileges required for this database. DO NOT use the MySQL root account.
+ADMIN_REGISTRATION_KEY must be replaced with a long random secret before deployment.
+
+4. CREATE THE FIRST ADMIN
+- Open /frontend/admin.html on the deployed site.
+- Use Register New Admin.
+- Enter the private ADMIN_REGISTRATION_KEY.
+- Create the first administrator account and log in.
+- After the first admin exists, public admin registration is blocked. An existing logged-in administrator is required to create another admin, and the setup key is still required.
+
+5. USER FLOW
+Register -> submit payment/M-Pesa reference -> account remains pending -> admin verifies payment -> admin approves -> user can log in.
+
+6. FINAL CHECKS
+- Register a temporary test user after deployment.
+- Verify it appears under Pending Activations with its payment reference.
+- Approve it and verify user login.
+- Submit a test withdrawal only if the deployment owner permits.
+- Remove deployment-test data after verification.
+
+7. SECURITY
+- Use HTTPS.
+- Use a dedicated database account.
+- Change the admin setup key.
+- Use strong unique admin passwords.
+- Keep backend/config.php private and never expose it through a public download.
+- Do not deploy localhost credentials.
+
+8. PAYMENT
+The application records the payment/M-Pesa reference for MANUAL administrator verification. It does not perform automatic Safaricom/M-Pesa API verification. Live automated payment verification requires a separate official payment integration.
