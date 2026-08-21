@@ -3,7 +3,7 @@ services:
     plan: free
     name: golbyrand-agencies
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./GOLYBRAND_SYSTEM_NEW/Dockerfile
     envVars:
       - key: ADMIN_REGISTRATION_KEY
         value: GolbyRandAdmin2026!
