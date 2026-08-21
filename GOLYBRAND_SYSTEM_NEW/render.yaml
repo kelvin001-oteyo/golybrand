@@ -3,7 +3,10 @@ services:
     plan: free
     name: golbyrand-agencies
     runtime: docker
-    dockerfilePath: ./GOLYBRAND_SYSTEM_NEW/Dockerfile
+    dockerfilePath: ./Dockerfile
+    buildCommand: |
+      cp -r ./GOLYBRAND_SYSTEM_NEW/* /var/www/html/
+    startCommand: apache2-foreground
     envVars:
       - key: ADMIN_REGISTRATION_KEY
         value: GolbyRandAdmin2026!
