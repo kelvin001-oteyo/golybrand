@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-// LOCAL XAMPP DEVELOPMENT CONFIGURATION
+// PRODUCTION CONFIGURATION - Aiven MySQL
 // Change these values before deploying to a public host.
-const DB_HOST='localhost';
-const DB_NAME='golybrand_new';
-const DB_USER='root';
-const DB_PASS='';
+const DB_HOST='mysql-2d38ecee-oteyikelvin-a4a9.f.aivencloud.com';
+const DB_PORT='10711';
+const DB_NAME='defaultdb';
+const DB_USER='avnadmin';
+const DB_PASS='AVNS_o_1zkWsKok3HAgWTVkI';
 
 // Secret used only when creating an administrator account.
 // Change this before deployment.
@@ -23,14 +24,17 @@ session_start();
 function db(): PDO {
     static $p=null;
     if ($p instanceof PDO) return $p;
+    
+    // Add SSL options for Aiven MySQL
     $p=new PDO(
-        'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8mb4',
+        'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME.';charset=utf8mb4',
         DB_USER,
         DB_PASS,
         [
             PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES=>false
+            PDO::ATTR_EMULATE_PREPARES=>false,
+            PDO::MYSQL_ATTR_SSL_CA => true, // Enable SSL for Aiven
         ]
     );
     return $p;
