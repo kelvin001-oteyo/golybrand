@@ -1,4 +1,4 @@
-const API='../backend/api.php';
+const API='/backend/api.php';
 let CURRENT_USER=null;
 let TEAM={level1:[],level2:[],level3:[]};
 let WITHDRAWALS=[];
@@ -137,12 +137,12 @@ async function renderManagedContent(page){
  const type=typeMap[page];
  if(page==='trivia'){
   const qs=d.trivia||[];
-  document.getElementById('mainContent').innerHTML=`<section class="content-card"><h2>Trivia Questions 🧠</h2><p>Answer the questions added by the GOLYBRAND administrator.</p>${qs.length?qs.map((q,i)=>`<article class="trivia-item"><h3>${i+1}. ${esc(q.question)}</h3><div class="trivia-options"><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">A. ${esc(q.option_a)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">B. ${esc(q.option_b)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">C. ${esc(q.option_c)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">D. ${esc(q.option_d)}</button></div><div class="trivia-result"></div><small>${esc(q.explanation||'')}</small></article>`).join(''):'<div class="empty">No trivia questions have been published yet.</div>'}</section>`;
+  document.getElementById('mainContent').innerHTML=`<section class="content-card"><h2>Trivia Questions 🧠</h2><p>Answer the questions added by the GOLYBRAND administrator.</p>${qs.length?qs.map((q,i)=>`<article class="trivia-item"><h3>${i+1}. ${esc(q.question)}</h3><div class="trivia-options"><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">A. ${esc(q.option_a)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">B. ${esc(q.option_b)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">C. ${esc(q.option_c)}</button><button onclick="answerTrivia(this,'${esc(q.correct_option)}')">D. ${esc(q.option_d)}</button></div><div class="trivia-result"></div><small>${esc(q.explanation||'')}</small></article>`).join(''):'<div class="empty">No trivia questions have been published yet.'}</section>`;
   return;
  }
  const items=(d.items||[]).filter(x=>x.content_type===type);
  const titles={forex:'Weekly Forex Classes',ebooks:'E-books',tiktok:'TikTok Videos',awards:'Best Agent Awards'};
- document.getElementById('mainContent').innerHTML=`<section class="content-card"><h2>${titles[page]}</h2><p>Resources published by the GOLYBRAND administrator.</p>${items.length?items.map(x=>`<article class="content-item"><div><h3>${esc(x.title)}</h3><p>${esc(x.description||'')}</p>${x.url?`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open Resource</a>`:''}</div></article>`).join(''):'<div class="empty">No content has been published yet.</div>'}</section>`;
+ document.getElementById('mainContent').innerHTML=`<section class="content-card"><h2>${titles[page]}</h2><p>Resources published by the GOLYBRAND administrator.</p>${items.length?items.map(x=>`<article class="content-item"><div><h3>${esc(x.title)}</h3><p>${esc(x.description||'')}</p>${x.url?`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Open Resource</a>`:''}</div></article>`).join(''):'<div class="empty">No content has been published yet.'}</section>`;
 }
 function answerTrivia(btn,correct){const wrap=btn.closest('.trivia-item');const result=wrap.querySelector('.trivia-result');const letter=btn.textContent.trim().charAt(0);wrap.querySelectorAll('button').forEach(b=>b.disabled=true);result.textContent=letter===correct?'Correct!':'Incorrect. The correct answer is '+correct+'.';}
 async function contentPage(title,text){return renderManagedContent(({ 'Trivia Questions':'trivia','Weekly Forex Classes':'forex','E-books':'ebooks','TikTok Videos':'tiktok','Best Agent Awards':'awards'})[title]||title);}
