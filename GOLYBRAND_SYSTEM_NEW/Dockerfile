@@ -12,10 +12,5 @@ COPY ./GOLYBRAND_SYSTEM_NEW/ /var/www/html/
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Set the DocumentRoot to the frontend folder
-ENV APACHE_DOCUMENT_ROOT /var/www/html/frontend
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
 # Expose port 80
 EXPOSE 80
