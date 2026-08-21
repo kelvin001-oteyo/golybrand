@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 // PRODUCTION CONFIGURATION - Aiven MySQL
-const DB_HOST='mysql-2d38ecee-oteyikelvin-a4a9.f.aivencloud.com';
+const DB_HOST='mysql-2d38ecee-oteyikelvin-a4a9.f.aivencloud.com;
 const DB_PORT='10711';
 const DB_NAME='defaultdb';
 const DB_USER='avnadmin';
-const DB_PASS='AVNS_o_izkwskok3HAgWTVkI';
+const DB_PASS='AVNS_LmHo4qAdg-C_JmXO5PJ';
 
 // Secret used only when creating an administrator account.
 const ADMIN_REGISTRATION_KEY='GolyBrandAdmin2026!';
