@@ -1,0 +1,17 @@
+services:
+  - type: web
+    plan: free
+    name: golybrand-agencies
+    runtime: image
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ADMIN_REGISTRATION_KEY
+        value: GolyBrandAdmin2026!
+      - key: DB_HOST
+        value: your_mysql_host
+      - key: DB_NAME
+        value: your_database_name
+      - key: DB_USER
+        value: your_database_user
+      - key: DB_PASS
+        value: your_database_password
