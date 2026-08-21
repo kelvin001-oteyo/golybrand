@@ -2,14 +2,19 @@
 declare(strict_types=1);
 
 // PRODUCTION CONFIGURATION - Aiven MySQL
-const DB_HOST='mysql-2d38ecee-oteyikelvin-a4a9.f.aivencloud.com;
+const DB_HOST='mysql-2d38ecee-oteyikelvin-a4a9.f.aivencloud.com'; // <-- Fixed missing quote
 const DB_PORT='10711';
 const DB_NAME='defaultdb';
 const DB_USER='avnadmin';
-const DB_PASS='AVNS_LmHo4qAdg-C_JmXO5PJ';
+const DB_PASS='AVNS_LmHo4qAdg-C_JmXO5PJ'; // <-- CHANGE THIS TO YOUR NEW PASSWORD
 
 // Secret used only when creating an administrator account.
 const ADMIN_REGISTRATION_KEY='GolyBrandAdmin2026!';
+
+// DEBUG: Uncomment these 3 lines if you want to see errors in the browser.
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 $https=!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 session_set_cookie_params([
@@ -23,8 +28,7 @@ function db(): PDO {
     static $p=null;
     if ($p instanceof PDO) return $p;
     
-    // Aiven MySQL requires SSL
-    // Using PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false for simplicity
+    // Aiven MySQL requires SSL. Removed empty CA strings to prevent crashes.
     $p=new PDO(
         'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME.';charset=utf8mb4',
         DB_USER,
@@ -34,7 +38,6 @@ function db(): PDO {
             PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES=>false,
             PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            PDO::MYSQL_ATTR_SSL_CA => '',
         ]
     );
     return $p;
