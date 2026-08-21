@@ -3,7 +3,9 @@ services:
     plan: free
     name: golybrand-agencies
     runtime: image
-    dockerfilePath: ./Dockerfile
+    image:
+      build:
+        dockerfilePath: ./Dockerfile
     envVars:
       - key: ADMIN_REGISTRATION_KEY
         value: GolyBrandAdmin2026!
